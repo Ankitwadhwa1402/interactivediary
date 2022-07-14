@@ -10,10 +10,6 @@ dotenv.config();
 
 
 import path from 'path';
-// import {fileURLToPath} from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-
 
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
@@ -32,7 +28,7 @@ app.use('/',(req,res)=>{
 
 const CONNECTION_URL = 'mongodb+srv://ankit:ankit123@cluster0.lsjskkj.mongodb.net/?retryWrites=true&w=majority'
 const PORT = process.env.PORT|| 5000;
-const URL=CONNECTION_URL;
+
 // if(process.env.NODE_ENV=="production")
 // {
 //   app.use(express.static('client/build'));
@@ -43,14 +39,19 @@ const URL=CONNECTION_URL;
 // }
 
 
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'client','build')));
 
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client','build', 'index.html'));
 });
-mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
+mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => app.listen(PORT || 3000 , () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
   .catch((error) => console.log(`${error} did not connect`));
 
 // mongoose.set('useFindAndModify', false);

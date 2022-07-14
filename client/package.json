@@ -1,6 +1,10 @@
 {
   "name":"mern-stack-client",
   "version":"0.1.0",
+  "engines":{
+    "node":"14.20.0",
+    "npm":"8.13.2"
+ },
   "dependencies":{
      "@material-ui/core":"^4.9.10",
      "@material-ui/icons":"^4.9.1",
