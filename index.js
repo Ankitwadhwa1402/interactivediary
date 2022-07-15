@@ -41,17 +41,22 @@ const PORT = process.env.PORT|| 5000;
 
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, 'client','build')));
-
-
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client','build', 'index.html'));
-});
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(PORT || 3000 , () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
   .catch((error) => console.log(`${error} did not connect`));
 
+  
+if(process.env.NODE_ENV=="production")
+{
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '/client/build')));
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
+}
 // mongoose.set('useFindAndModify', false);
